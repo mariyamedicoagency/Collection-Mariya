@@ -4,6 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b74bb"><title>Mariya Medico Agency</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
 :root{--blue:#0878bd;--blue2:#075f99;--ink:#172033;--muted:#667085;--bg:#f4f7fb;--card:#fff;--line:#e5eaf0;--green:#087443;--red:#c4322d;--amber:#9a6700;--shadow:0 10px 30px rgba(20,40,70,.08)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
@@ -27,16 +28,41 @@ label{display:block;font-size:13px;font-weight:650;color:#475467;margin-bottom:6
 .compact-summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.compact-summary .sum-item{min-width:0}.compact-summary .sum-label{font-size:10px;color:#667085}.compact-summary .sum-num{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.compact-summary .final-num{color:#087443}
 .paper-view{background:#fffdf6;border:1px solid #ddd6c5;border-radius:10px;padding:14px;box-shadow:0 2px 8px rgba(60,50,30,.06)}
 .paper-view .paper-title{text-align:center;font-weight:850;font-size:17px;letter-spacing:.2px}.paper-meta{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;margin:10px 0 12px;font-size:12px}.paper-table{width:100%;border-collapse:collapse;min-width:0}.paper-table th,.paper-table td{border-bottom:1px dashed #cfc7b5;padding:7px 4px;font-size:12px}.paper-table th{background:transparent;color:#4f4a40}.paper-total{display:flex;justify-content:space-between;border-top:2px solid #5d574c;margin-top:8px;padding-top:8px;font-weight:850}
-@media(max-width:600px){.collection-head{grid-template-columns:minmax(0,1fr) 78px 78px 66px}.collection-row{grid-template-columns:minmax(0,1fr) 78px 78px 66px}.collection-row input{padding:8px 6px}.compact-summary-grid{grid-template-columns:repeat(3,1fr)}.compact-summary .sum-num{font-size:14px}.paper-meta{grid-template-columns:1fr 1fr}}@media print{header,.no-print,#msg{display:none!important}.page{display:none!important}.page.print-target{display:block!important}.print-only{display:block}.wrap{max-width:none}.card,.box{box-shadow:none}}
+@media(max-width:600px){.collection-head{grid-template-columns:minmax(0,1fr) 78px 78px 66px}.collection-row{grid-template-columns:minmax(0,1fr) 78px 78px 66px}.collection-row input{padding:8px 6px}.compact-summary-grid{grid-template-columns:repeat(3,1fr)}.compact-summary .sum-num{font-size:14px}.paper-meta{grid-template-columns:1fr 1fr}}
+/* Daily slips + polished live party search */
+.slips-page-hero{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px;border-radius:18px;background:linear-gradient(135deg,#eaf6ff,#ffffff);border:1px solid #d8e9f5;margin-bottom:14px}.slips-page-hero .eyebrow{font-size:11px;font-weight:850;letter-spacing:1.2px;color:var(--blue)}.slips-page-hero h2{margin:4px 0 5px}.slips-date-box{min-width:210px;background:#fff;border:1px solid #dbe5ed;border-radius:14px;padding:10px;box-shadow:0 5px 15px rgba(20,40,70,.06)}.slips-date-box label{margin-bottom:5px}.slips-date-box input{padding:10px}.slips-summary-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 14px}.slips-summary-bar>div{background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px 11px}.slips-summary-bar span,.closing-grid span{display:block;color:var(--muted);font-size:11px}.slips-summary-bar b{display:block;font-size:15px;margin-top:3px}.daily-slips-grid{align-items:start}.daily-slip-card{background:#fffdf7;border:1px solid #d7d0c3;border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(25,35,55,.08);position:relative;overflow:hidden}.daily-slip-card:before,.daily-closing-slip:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 30px,rgba(100,100,100,.04) 31px)}.daily-slip-card>*,.daily-closing-slip>*{position:relative}.daily-closing-slip{position:relative;background:#fffdf7;border:1px solid #d7d0c3;border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 8px 24px rgba(25,35,55,.08)}.closing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.closing-grid>div{border-bottom:1px dashed #cfc7b5;padding:9px 3px}.closing-grid b{float:right}.closing-grid .closing-final{grid-column:1/-1;background:#e9f9ef;border-radius:12px;border:0;padding:12px 14px;font-weight:850}.live-party-search{position:relative}.party-suggestions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;min-height:0}.suggestion-chip{background:#eef7fd;color:#0878bd;border:1px solid #cfe7f7;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:700}.suggestion-empty{font-size:12px;color:var(--muted);padding:5px}
+@media(max-width:700px){.slips-page-hero{display:block}.slips-date-box{margin-top:12px;min-width:0}.slips-summary-bar{grid-template-columns:repeat(2,1fr)}.slips-summary-bar>div:first-child{grid-column:1/-1}.closing-grid{grid-template-columns:1fr 1fr}.closing-grid .closing-final{grid-column:1/-1}.daily-slip-card{padding:13px}}
+
+@media print{header,.no-print,#msg{display:none!important}.page{display:none!important}.page.print-target{display:block!important}.print-only{display:block}.wrap{max-width:none}.card,.box{box-shadow:none}}
 
 .payment-slip{background:#fffdf7;border:1px solid #d7d0c3;border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(25,35,55,.08);position:relative;overflow:hidden}
 .payment-slip:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 30px,rgba(100,100,100,.045) 31px)}
 .payment-slip>*{position:relative}.slips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}.slip-head{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #1e293b;padding-bottom:10px}.slip-agency{font-size:15px;font-weight:900;letter-spacing:.7px}.slip-title{font-size:11px;font-weight:800;color:#64748b;margin-top:3px}.slip-meta{text-align:right;font-size:11px;color:#64748b}.slip-route{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #cbd5e1}.slip-route span,.slip-subtitle{font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px}.slip-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:9px 0;font-size:11px;color:#64748b}.slip-table{border:1px solid #dbe1e8;border-radius:10px;overflow:hidden;margin:8px 0}.slip-row{display:grid;grid-template-columns:minmax(0,1.7fr) .9fr .9fr .9fr;gap:5px;padding:7px 8px;font-size:11px;border-bottom:1px solid #edf0f3}.slip-row:last-child{border-bottom:0}.slip-th{font-weight:800;background:#f1f5f9;color:#475569}.slip-row span:first-child{overflow:hidden;text-overflow:ellipsis}.slip-total,.slip-grand,.slip-line{display:flex;justify-content:space-between;gap:10px;padding:7px 0;font-size:12px}.slip-total{border-bottom:1px dashed #d7dde5}.slip-grand{margin-top:7px;padding:10px;border-radius:10px;background:#eafaf1;font-weight:900}.slip-expenses{margin-top:9px;padding-top:7px;border-top:1px dashed #cbd5e1}.slip-noexpense{font-size:11px;color:#64748b;padding:6px 0}.slip-empty{text-align:center;color:#64748b;padding:14px;font-size:11px}.daily-closing{max-width:760px;margin:0 auto}
 @media(max-width:700px){.slips-grid{grid-template-columns:1fr}.payment-slip{padding:13px}.slip-row{grid-template-columns:minmax(0,1.45fr) .8fr .8fr .8fr;font-size:10px}.slip-head{align-items:flex-start}.slip-agency{font-size:13px}}
+
+/* EXACT DAILY SLIPS + MOBILE PARTY SEARCH */
+.daily-slips-launch{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,#ffffff,#f3faff);border:1px solid #d7e8f4;border-radius:18px;padding:15px 16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(10,80,130,.07)}
+.daily-slips-launch h3{margin:0 0 3px}.daily-slips-launch .btn{white-space:nowrap}
+.search-wrap{position:relative}.search-wrap input{padding-right:42px!important;font-size:16px!important}.search-clear{position:absolute;right:9px;top:31px;width:30px;height:30px;border-radius:50%;border:0;background:#eef3f7;color:#475569;font-size:18px;line-height:1;display:none;align-items:center;justify-content:center;z-index:3}.search-clear.show{display:flex}.search-live-note{font-size:11px;color:#64748b;margin-top:6px}
+@media(max-width:600px){.daily-slips-launch{display:block}.daily-slips-launch .btn{width:100%;margin-top:10px}.search-clear{top:32px}}
+
+/* FINAL PHOTO SLIP / SHARE UI */
+.slips-date-panel{background:#fff;border:1px solid #dce5ed;border-radius:20px;padding:16px;box-shadow:0 10px 28px rgba(20,40,70,.08);margin-bottom:14px}
+.slips-date-actions{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:end}
+.slips-view-btn{height:48px;border-radius:13px;font-weight:850;padding:0 18px}
+.slip-actions{display:flex;justify-content:flex-end;gap:7px;margin:10px 0 0}
+.share-photo-btn{background:#0878bd;color:#fff;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800}
+.share-photo-btn:active{transform:scale(.98)}
+.photo-slip{background:#fffdf7}
+.daily-slip-card .slip-head{padding-top:2px}
+.daily-slip-card .slip-route b{font-size:15px}
+.daily-slip-card .slip-grand{font-size:13px}
+.daily-closing-slip .slip-actions{margin-top:12px}
+@media(max-width:600px){.slips-date-actions{grid-template-columns:1fr}.slips-view-btn{width:100%}.share-photo-btn{width:100%;padding:10px}}
 </style></head>
 <body>
 <div id="loginView" class="wrap"><div class="login card"><div class="login-hero"><h1>Mariya Medico Agency</h1><div>Collection • Ledger • Expenses</div></div><div id="loginMsg"></div><label>Email</label><input id="email" type="email" autocomplete="username" placeholder="Email"><br><label>Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Password"><br><button class="btn" style="width:100%" onclick="login()">Login</button></div></div>
-<div id="appView" class="hidden"><header><div class="head"><div class="brand"><div><h1>Mariya Medico Agency</h1><small id="userLabel"></small></div><span class="chip" style="background:#ffffff20;color:#fff" id="roleBadge"></span></div><div class="nav"><button data-page="dashboard" onclick="showPage('dashboard')">Dashboard</button><button data-page="add" onclick="showPage('add')">＋ Collection</button><button data-page="ledger" onclick="showPage('ledger')">Ledger</button><button data-page="reports" onclick="showPage('reports')">Reports</button><button data-page="expenses" onclick="showPage('expenses')">Expenses</button><button id="companyNav" data-page="company" class="hidden" onclick="showPage('company')">Company Payment</button><button id="manageNav" data-page="manage" class="hidden" onclick="showPage('manage')">Manage</button><button onclick="logout()">Logout</button></div></div></header><main class="wrap"><div id="msg"></div><section id="dashboard" class="page"></section><section id="add" class="page hidden"></section><section id="ledger" class="page hidden"></section><section id="reports" class="page hidden"></section><section id="expenses" class="page hidden"></section><section id="company" class="page hidden"></section><section id="manage" class="page hidden"></section></main></div>
+<div id="appView" class="hidden"><header><div class="head"><div class="brand"><div><h1>Mariya Medico Agency</h1><small id="userLabel"></small></div><span class="chip" style="background:#ffffff20;color:#fff" id="roleBadge"></span></div><div class="nav"><button data-page="dashboard" onclick="showPage('dashboard')">Dashboard</button><button data-page="add" onclick="showPage('add')">＋ Collection</button><button data-page="ledger" onclick="showPage('ledger')">Ledger</button><button data-page="slips" onclick="showPage('slips')">🧾 Daily Slips</button><button data-page="reports" onclick="showPage('reports')">Reports</button><button data-page="expenses" onclick="showPage('expenses')">Expenses</button><button id="companyNav" data-page="company" class="hidden" onclick="showPage('company')">Company Payment</button><button id="manageNav" data-page="manage" class="hidden" onclick="showPage('manage')">Manage</button><button onclick="logout()">Logout</button></div></div></header><main class="wrap"><div id="msg"></div><section id="dashboard" class="page"></section><section id="add" class="page hidden"></section><section id="ledger" class="page hidden"></section><section id="slips" class="page hidden"></section><section id="reports" class="page hidden"></section><section id="expenses" class="page hidden"></section><section id="company" class="page hidden"></section><section id="manage" class="page hidden"></section></main></div>
 <script>
 const SUPABASE_URL='https://dwipacrbrmgszyaxgqqw.supabase.co';const SUPABASE_KEY='sb_publishable_FAd6tW9a9WqIGJ0duNWZyw_DIbFlaDW';const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:'mariya-medico-auth'}});
 let me=null,profile=null,parties=[],routes=[],workers=[],routeParties=[];let removedTodayParties=new Set();const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));const money=n=>'₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});const today=()=>new Date().toISOString().slice(0,10);
@@ -47,7 +73,7 @@ async function login(){if(starting)return;const email=document.getElementById('e
 async function logout(){await sb.auth.signOut({scope:'local'});me=null;profile=null;document.getElementById('appView').classList.add('hidden');document.getElementById('loginView').classList.remove('hidden');document.getElementById('password').value='';}
 async function start(){if(startingSession)return;startingSession=true;try{const {data:{session}}=await sb.auth.getSession();const user=session?.user;if(!user){document.getElementById('loginView').classList.remove('hidden');document.getElementById('appView').classList.add('hidden');return}me=user;const {data:p,error}=await sb.rpc('get_my_profile');if(error||!p){document.getElementById('loginView').classList.remove('hidden');document.getElementById('appView').classList.add('hidden');return loginMsg(error?.message||'Profile not found. Admin se user profile/role save karwao.')}profile=p;document.getElementById('loginView').classList.add('hidden');document.getElementById('appView').classList.remove('hidden');document.getElementById('userLabel').textContent=(p.name||user.email)+' • '+String(p.role||'worker').replace('_','-');document.getElementById('roleBadge').textContent=roleLabel();document.getElementById('manageNav').classList.toggle('hidden',!isAdmin());document.querySelector('[data-page="expenses"]')?.classList.toggle('hidden',!canSeeExpenses());document.getElementById('companyNav')?.classList.toggle('hidden',!isAdmin());const ok=await loadBase();if(ok)showPage('dashboard')}finally{startingSession=false}}
 async function loadBase(){try{let a=await sb.from('parties').select('*').order('name');if(a.error)throw a.error;parties=a.data||[];let r=await sb.from('routes').select('*').eq('active',true).order('name');if(r.error)throw r.error;routes=r.data||[];let rp=await sb.from('route_parties').select('route_id,party_id');if(rp.error)throw rp.error;routeParties=rp.data||[];if(profile.role==='admin'){let w=await sb.from('profiles').select('*').eq('role','worker').eq('active',true).order('name');if(w.error)throw w.error;workers=w.data||[]}else workers=[profile];return true}catch(e){flash('Database load error: '+e.message,'err');return false}}
-function showPage(id){if(id==='expenses'&&!canSeeExpenses())return flash('Expenses sirf Admin aur Shahzeb Zelani (Co-Admin) ke liye hain.','err');if(id==='company'&&!isAdmin())return flash('Company Payment sirf Admin ke liye hai.','err');document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.nav button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='dashboard')dashboard();if(id==='add')addPage();if(id==='ledger')ledgerPage();if(id==='reports')reportsPage();if(id==='expenses')expensesPage();if(id==='company')companyPage();if(id==='manage')managePage()}
+function showPage(id){if(id==='expenses'&&!canSeeExpenses())return flash('Expenses sirf Admin aur Shahzeb Zelani (Co-Admin) ke liye hain.','err');if(id==='company'&&!isAdmin())return flash('Company Payment sirf Admin ke liye hai.','err');document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.nav button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='dashboard')dashboard();if(id==='add')addPage();if(id==='ledger')ledgerPage();if(id==='slips')dailySlipsPage();if(id==='reports')reportsPage();if(id==='expenses')expensesPage();if(id==='company')companyPage();if(id==='manage')managePage()}
 async function payments(f={}){let q=sb.from('payments').select('id,amount,account_amount,pay_date,remark,party_id,route_id,worker_id,created_at,parties(name),routes(name),profiles(name)');if(f.start)q=q.gte('pay_date',f.start);if(f.end)q=q.lte('pay_date',f.end);if(f.date)q=q.eq('pay_date',f.date);if(f.route)q=q.eq('route_id',f.route);if(f.worker)q=q.eq('worker_id',f.worker);if(f.party)q=q.eq('party_id',f.party);q=q.order('pay_date',{ascending:false}).order('id',{ascending:false});return await q}
 async function expenses(f={}){let q=sb.from('expenses').select('id,amount,expense_date,category,route_id,worker_id,remark,routes(name),profiles(name)');if(f.start)q=q.gte('expense_date',f.start);if(f.end)q=q.lte('expense_date',f.end);if(f.date)q=q.eq('expense_date',f.date);if(f.route)q=q.eq('route_id',f.route);if(f.worker)q=q.eq('worker_id',f.worker);q=q.order('expense_date',{ascending:false}).order('id',{ascending:false});return await q}
 function sums(data){const total=data.reduce((a,x)=>a+Number(x.amount||0),0),account=data.reduce((a,x)=>a+Number(x.account_amount||0),0);return{total,account,cash:total-account}}
@@ -118,12 +144,88 @@ async function dashboard(selectedDate=today()){
   document.getElementById('dashboard').innerHTML=`
   <div class="hero-grid"><div class="card hero-card"><div class="section-title"><div><h2 style="color:#fff">Good day, ${esc(profile?.name||'User')} 👋</h2><div class="muted">${esc(dayName)} • ${roleLabel()}</div></div><span class="chip" style="background:#ffffff20;color:#fff">LIVE</span></div><div class="kpi-row" style="margin-top:18px"><div class="kpi"><div>Month Collection</div><b>${money(ms.total)}</b><small>${esc(monthName)}</small></div><div class="kpi"><div>Month Cash</div><b>${money(ms.cash)}</b></div><div class="kpi"><div>Month Account</div><b>${money(ms.account)}</b></div><div class="kpi"><div>Month Final Cash</div><b>${money(monthFinalCash)}</b></div></div></div>
   <div class="card soft"><h3>💰 Account Balance</h3><div class="stat"><div class="num">${money(accountBalance)}</div><div class="mini">All-time Account Collection − Account Company Payments</div></div>${canSeeExpenses()?`<div class="muted" style="margin-top:8px">This month company payments: ${money(monthCp.reduce((a,x)=>a+Number(x.amount||0),0))}</div>`:''}</div></div>
+  <div class="daily-slips-launch"><div><h3>🧾 Daily Collection Slips</h3><div class="muted">Kisi bhi date ko select karke us din ke har route ki separate payment slip dekho — bilkul register/paper style.</div></div><button class="btn" onclick="showPage('slips')">Open Date-wise Slips →</button></div>
   <br><div class="box soft"><div class="section-title"><div><h3>📅 Date-wise Payment Slips</h3><div class="muted">Date select karo — har route ka alag payment slip milega. Expenses bhi wahi minus dikhenge.</div></div><span class="chip">${esc(dayName)}</span></div><div style="margin-top:12px"><label>Select Date</label><input id="dashDate" type="date" value="${esc(sd)}" onchange="dashboard(this.value)"></div><div class="kpi-row" style="margin-top:14px"><div class="kpi"><div>Total Collection</div><b>${money(ds.total)}</b></div><div class="kpi"><div>Cash</div><b>${money(ds.cash)}</b></div><div class="kpi"><div>Account</div><b>${money(ds.account)}</b></div><div class="kpi"><div>Net Cash</div><b>${money(dayFinalCash)}</b></div></div></div>
   <br><div class="section-title"><div><h2>🧾 ${esc(dayName)} — Route-wise Slips</h2><div class="muted">2 ya 3 routes honge to 2 ya 3 separate slips. Admin/Co-Admin ko ek nazar me clear settlement.</div></div></div>
   <div class="slips-grid">${dayRowsByRoute||'<div class="empty">Is date par koi route nahi hai.</div>'}</div>
   ${canSeeExpenses()?`<br><div class="payment-slip daily-closing"><div class="slip-head"><div><div class="slip-agency">MARIYA MEDICO AGENCY</div><div class="slip-title">DAILY CLOSING / EXPENSE SLIP</div></div><div class="slip-meta">Date<br><b>${esc(dayName)}</b></div></div><div class="slip-total"><span>Total Collection</span><b>${money(ds.total)}</b></div><div class="slip-total"><span>Total Cash</span><b>${money(ds.cash)}</b></div><div class="slip-total"><span>Total Account</span><b>${money(ds.account)}</b></div><div class="slip-expenses"><div class="slip-subtitle">Common Expenses</div>${commonExpenseHtml}</div><div class="slip-expenses"><div class="slip-subtitle">Company Payments</div>${companyHtml}</div><div class="slip-total"><span>Route Expenses</span><b>− ${money(routeExpenseTotal)}</b></div><div class="slip-total"><span>Common Expenses</span><b>− ${money(commonExpense)}</b></div><div class="slip-total"><span>Company Cash Payment</span><b>− ${money(dayCompanyCash)}</b></div><div class="slip-grand"><span>FINAL CASH</span><b>${money(dayFinalCash)}</b></div><div class="muted" style="margin-top:8px">Account after today's company payment: ${money(ds.account-dayCompanyAccount)} (daily movement)</div></div>`:''}
   ${canSeeExpenses()?`<br><div class="box"><div class="section-title"><div><h3>💸 Expense Detail — ${esc(dayName)}</h3><div class="muted">Kahan expense hua, route ke saath clear dikhega.</div></div><b>${money(dayExpense)}</b></div>${dayEx.length?`<div class="tablewrap"><table><tr><th>Type</th><th>Amount</th><th>Route</th><th>Boys</th><th>Remark</th></tr>${dayEx.map(x=>`<tr><td><span class="badge expense">${esc(x.category)}</span></td><td><b>${money(x.amount)}</b></td><td>${esc(x.routes?.name||'Common')}</td><td>${esc(x.profiles?.name||'-')}</td><td>${esc(x.remark||'-')}</td></tr>`).join('')}</table></div>`:'<div class="empty">Is date par koi expense nahi hai.</div>'}</div>`:''}
   ${canSeeExpenses()?`<br><div class="box"><div class="section-title"><div><h3>🏢 Company Payments — ${esc(monthName)}</h3><div class="muted">Cash/account payment separately tracked.</div></div><b>${money(monthCp.reduce((a,x)=>a+Number(x.amount||0),0))}</b></div>${monthCp.length?`<div class="tablewrap"><table><tr><th>Date</th><th>Company</th><th>Mode</th><th>Amount</th><th>Remark</th></tr>${monthCp.map(x=>`<tr><td>${esc(x.payment_date)}</td><td>${esc(x.company)}</td><td><span class="badge ${x.mode==='account'?'account':'cash'}">${esc(x.mode.toUpperCase())}</span></td><td><b>${money(x.amount)}</b></td><td>${esc(x.remark||'-')}</td></tr>`).join('')}</table></div>`:'<div class="empty">Is month me koi company payment nahi hai.</div>'}</div>`:''}`;
+}
+function dailySlipsPage(){
+  document.getElementById('slips').innerHTML=`
+  <div class="slips-page-hero">
+    <div><div class="eyebrow">MARIYA MEDICO AGENCY</div><h2>🧾 Daily Collection Slips</h2><div class="muted">Date select karo → us din ke sirf collection wale routes ki separate photo-style slip.</div></div>
+  </div>
+  <div class="slips-date-panel">
+    <div class="slips-date-actions">
+      <div><label>📅 Collection Date</label><input id="slipDate" type="date" value="${today()}"></div>
+      <button class="btn slips-view-btn" type="button" onclick="loadDailySlips(document.getElementById('slipDate').value)">👁 View Slips</button>
+    </div>
+  </div>
+  <div id="dailySlipsContent"><div class="empty">Loading slips...</div></div>`;
+  loadDailySlips(today());
+}
+async function shareSlipPhoto(id, fileName='collection-slip'){
+  const node=document.getElementById(id);
+  if(!node)return flash('Slip nahi mili.','err');
+  if(typeof html2canvas!=='function')return flash('Photo sharing library load nahi hui. Internet check karo.','err');
+  const old=node.querySelector('.slip-actions');
+  if(old)old.style.visibility='hidden';
+  try{
+    const canvas=await html2canvas(node,{backgroundColor:'#fffdf7',scale:2,useCORS:true,logging:false});
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
+    if(!blob)throw new Error('Photo create nahi hui.');
+    const file=new File([blob],`${fileName}.png`,{type:'image/png'});
+    if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+      await navigator.share({title:'Mariya Medico Agency - Collection Slip',text:'Collection Slip',files:[file]});
+      return;
+    }
+    flash('Is browser me direct photo-share support nahi hai. Chrome/Android Share use karo.','err');
+  }catch(e){
+    if(e?.name!=='AbortError')flash('Slip share nahi hui: '+(e?.message||'Unknown error'),'err');
+  }finally{if(old)old.style.visibility='visible';}
+}
+async function loadDailySlips(sd){
+  const el=document.getElementById('dailySlipsContent'); if(!el)return;
+  const [dp,exr,cpr]=await Promise.all([
+    payments({date:sd}),
+    canSeeExpenses()?expenses({date:sd}):Promise.resolve({data:[],error:null}),
+    canSeeExpenses()?companyPayments({start:sd,end:sd}):Promise.resolve({data:[],error:null})
+  ]);
+  if(dp.error||exr.error||cpr.error){el.innerHTML='<div class="msg err">'+esc((dp.error||exr.error||cpr.error).message)+'</div>';return;}
+  const rows=dp.data||[], ex=exr.data||[], cp=cpr.data||[];
+  const routeIds=[...new Set(rows.map(x=>String(x.route_id)).filter(Boolean))];
+  const dateName=new Date(sd+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const slips=routeIds.map((rid,i)=>{
+    const route=routes.find(r=>String(r.id)===rid); const rr=rows.filter(x=>String(x.route_id)===rid); const z=sums(rr);
+    const rex=ex.filter(x=>x.route_id!=null&&String(x.route_id)===rid); const rext=rex.reduce((a,x)=>a+Number(x.amount||0),0);
+    const slipId='photoSlip_'+rid+'_'+String(sd).replace(/-/g,'');
+    const workerNames=[...new Set(rr.map(x=>x.profiles?.name).filter(Boolean))].join(', ')||'-';
+    return `<article id="${slipId}" class="daily-slip-card payment-slip photo-slip">
+      <div class="slip-head"><div><div class="slip-agency">MARIYA MEDICO AGENCY</div><div class="slip-title">DAILY COLLECTION SLIP</div></div><div class="slip-meta">DATE<br><b>${esc(dateName)}</b></div></div>
+      <div class="slip-route"><span>ROUTE</span><b>${esc(route?.name||'Unknown Route')}</b></div>
+      <div class="slip-meta-grid"><div>Collected By<br><b>${esc(workerNames)}</b></div><div>Parties Paid<br><b>${rr.length}</b></div></div>
+      <div class="slip-table"><div class="slip-row slip-th"><span>Party</span><span>Cash</span><span>Account</span><span>Total</span></div>
+      ${rr.map(x=>{const a=Number(x.account_amount||0),t=Number(x.amount||0);return `<div class="slip-row"><span>${esc(x.parties?.name||'-')}</span><span>${money(t-a)}</span><span>${money(a)}</span><b>${money(t)}</b></div>`}).join('')||'<div class="slip-empty">No collection.</div>'}</div>
+      <div class="slip-total"><span>Total Collection</span><b>${money(z.total)}</b></div>
+      <div class="slip-total"><span>Cash Collected</span><b>${money(z.cash)}</b></div>
+      <div class="slip-total"><span>Account Collected</span><b>${money(z.account)}</b></div>
+      <div class="slip-expenses"><div class="slip-subtitle">EXPENSES MINUS</div>${rex.length?rex.map(x=>`<div class="slip-line"><span>${esc(x.category)}${x.remark?` — ${esc(x.remark)}`:''}</span><b>− ${money(x.amount)}</b></div>`).join(''):'<div class="slip-noexpense">No route expense</div>'}</div>
+      <div class="slip-grand"><span>NET CASH AFTER EXPENSE</span><b>${money(z.cash-rext)}</b></div>
+      <div class="slip-actions"><button class="share-photo-btn" type="button" onclick="shareSlipPhoto('${slipId}','${String(route?.name||'route').replace(/[^a-z0-9]+/gi,'-')}-${sd}')">📤 Share as Photo</button></div>
+    </article>`;
+  }).join('');
+  const common=ex.filter(x=>x.route_id==null), commonTotal=common.reduce((a,x)=>a+Number(x.amount||0),0);
+  const routeExpTotal=ex.filter(x=>x.route_id!=null).reduce((a,x)=>a+Number(x.amount||0),0);
+  const day=sums(rows), cashCp=cp.filter(x=>x.mode==='cash').reduce((a,x)=>a+Number(x.amount||0),0), accountCp=cp.filter(x=>x.mode==='account').reduce((a,x)=>a+Number(x.amount||0),0);
+  const finalCash=day.cash-routeExpTotal-commonTotal-cashCp;
+  const commonHtml=common.length?common.map(x=>`<div class="slip-line"><span>${esc(x.category)}${x.remark?` — ${esc(x.remark)}`:''}</span><b>− ${money(x.amount)}</b></div>`).join(''):'<div class="slip-noexpense">No common expense</div>';
+  const cpHtml=cp.length?cp.map(x=>`<div class="slip-line"><span>${esc(x.company)} • ${esc(x.mode.toUpperCase())}${x.remark?` — ${esc(x.remark)}`:''}</span><b>− ${money(x.amount)}</b></div>`).join(''):'<div class="slip-noexpense">No company payment</div>';
+  const closingId='dailyClosing_'+String(sd).replace(/-/g,'');
+  el.innerHTML=`<div class="slips-summary-bar"><div><span>Date</span><b>${esc(dateName)}</b></div><div><span>Routes</span><b>${routeIds.length}</b></div><div><span>Total Collection</span><b>${money(day.total)}</b></div><div><span>Cash</span><b>${money(day.cash)}</b></div><div><span>Account</span><b>${money(day.account)}</b></div></div>
+  <div class="slips-grid daily-slips-grid">${slips||'<div class="empty">Is date par koi collection nahi mila.</div>'}</div>
+  ${canSeeExpenses()?`<article id="${closingId}" class="daily-closing-slip payment-slip photo-slip"><div class="slip-head"><div><div class="slip-agency">MARIYA MEDICO AGENCY</div><div class="slip-title">DAILY CLOSING / MONEY OUT</div></div><div class="slip-meta">DATE<br><b>${esc(dateName)}</b></div></div><div class="slip-total"><span>Total Collection</span><b>${money(day.total)}</b></div><div class="slip-total"><span>Route Expenses</span><b>− ${money(routeExpTotal)}</b></div><div class="slip-total"><span>Common Expenses</span><b>− ${money(commonTotal)}</b></div><div class="slip-total"><span>Company Cash Payment</span><b>− ${money(cashCp)}</b></div><div class="slip-total"><span>Company Account Payment</span><b>− ${money(accountCp)}</b></div><div class="slip-grand"><span>FINAL CASH</span><b>${money(finalCash)}</b></div><div class="slip-expenses"><div class="slip-subtitle">COMMON EXPENSES</div>${commonHtml}</div><div class="slip-expenses"><div class="slip-subtitle">COMPANY PAYMENTS</div>${cpHtml}</div><div class="slip-actions"><button class="share-photo-btn" type="button" onclick="shareSlipPhoto('${closingId}','daily-closing-${sd}')">📤 Share as Photo</button></div></article>`:''}`;
 }
 function reportsPage(){document.getElementById('reports').innerHTML=`<div class="section-title"><div><h2>Reports</h2><div class="muted">Party/date range/month/year — collection, expenses, Boys aur cash/account balances.</div></div><button class="btn secondary" onclick="printReport()">🖨 Print Report</button></div><br><div class="box"><div class="toolbar"><button class="btn secondary" onclick="setReportRange('month')">This Month</button><button class="btn secondary" onclick="setReportRange('year')">This Year</button><button class="btn secondary" onclick="setReportRange('all')">All Time</button></div><br><div class="filter-grid"><div><label>From</label><input id="rstart" type="date" value="${monthBounds(today()).start}"></div><div><label>To</label><input id="rend" type="date" value="${today()}"></div><div><label>Party</label><select id="rrparty"><option value="">All parties</option>${parties.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select></div><div><label>Route</label><select id="rrroute"><option value="">All routes</option>${routes.map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join('')}</select></div><div><label>Boys</label><select id="rrworker"><option value="">All Boys</option>${workers.map(w=>`<option value="${w.id}">${esc(w.name)}</option>`).join('')}</select></div></div><br><button class="btn" onclick="runReports()">Generate Report</button></div><div id="reportResults"></div>`;runReports()}
 function setReportRange(kind){const d=new Date();let s,e=today();if(kind==='month'){s=monthBounds(today()).start}else if(kind==='year'){s=`${d.getFullYear()}-01-01`}else{s='2000-01-01'}document.getElementById('rstart').value=s;document.getElementById('rend').value=e;runReports()}
@@ -141,7 +243,7 @@ async function ledgerPage(){
   document.getElementById('ledger').innerHTML=`
   <div class="section-title"><div><h2>Ledger & Party History</h2><div class="muted">Party naam type karte hi live search • Date, Route, Boys aur complete money-out detail.</div></div><div class="toolbar"><button class="btn secondary" onclick="exportLedgerCSV()">⬇ Export CSV</button><button class="btn secondary" onclick="showPage('reports')">Reports</button></div></div>
   <br><div class="box"><div class="filter-grid">
-  <div><label>🔎 Search Party — Live</label><input id="lsearch" list="partySearchList" placeholder="Party ka naam type karo..." autocomplete="off" oninput="runLedgerLiveSearch()"><datalist id="partySearchList">${parties.map(p=>`<option value="${esc(p.name)}">`).join('')}</datalist></div>
+  <div class="search-wrap"><label>🔎 Search Party — Live</label><input id="lsearch" placeholder="Party ka naam type karo..." autocomplete="off" inputmode="text" oninput="runLedgerLiveSearch()"><button id="ledgerSearchClear" class="search-clear" type="button" aria-label="Clear party search" onclick="clearLedgerSearch()">×</button><div class="search-live-note">Naam type karte hi neeche result filter hoga. Keyboard open rahega.</div></div>
   <div><label>Single Date</label><input id="ldate" type="date" onchange="runLedger()"></div>
   <div><label>From Date</label><input id="lstart" type="date" onchange="runLedger()"></div>
   <div><label>To Date</label><input id="lend" type="date" onchange="runLedger()"></div>
@@ -154,7 +256,27 @@ async function ledgerPage(){
 }
 function runLedgerLiveSearch(){
   clearTimeout(window.__ledgerSearchTimer);
-  window.__ledgerSearchTimer=setTimeout(()=>runLedger(),180);
+  const input=document.getElementById('lsearch');
+  const q=(input?.value||'').trim().toLowerCase();
+  const clear=document.getElementById('ledgerSearchClear');
+  if(clear)clear.classList.toggle('show',!!q);
+  // No clickable suggestion list: typing itself filters the ledger.
+  window.__ledgerSearchTimer=setTimeout(()=>runLedger(),120);
+}
+function clearLedgerSearch(){
+  const input=document.getElementById('lsearch');
+  if(input){input.value='';input.focus();}
+  const clear=document.getElementById('ledgerSearchClear'); if(clear)clear.classList.remove('show');
+  runLedger();
+}
+function pickLedgerParty(id){
+  const p=parties.find(x=>String(x.id)===String(id));
+  const input=document.getElementById('lsearch');
+  if(!p||!input)return;
+  input.value=p.name;
+  input.focus();
+  const clear=document.getElementById('ledgerSearchClear'); if(clear)clear.classList.add('show');
+  runLedger();
 }
 function clearLedger(){['lsearch','ldate','lstart','lend','lparty','lroute','lworker'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});runLedger()}
 async function runLedger(){
